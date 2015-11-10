@@ -1,0 +1,27 @@
+{
+  "name": "infolis-logging",
+  "version": "0.0.1",
+  "description": "Module-specific Winston logging",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/infolis/infolis-logging.git"
+  },
+  "keywords": [
+    "logging",
+    "winston"
+  ],
+  "author": "kba",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/infolis/infolis-logging/issues"
+  },
+  "homepage": "https://github.com/infolis/infolis-logging#readme",
+  "dependencies": {
+    "chalk": "^1.1.1",
+    "winston": "^2.1.0"
+  }
+}
