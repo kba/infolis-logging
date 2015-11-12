@@ -1,6 +1,7 @@
 'use strict';
 var Winston = require('winston'),
     Chalk = require('chalk'),
+    Cycle = require('cycle'),
     Util = require('util');
 
 Winston.emitErrs = true;
@@ -16,18 +17,16 @@ function getDate() {
 };
 
 function getMeta(obj) {
-  var msg;
-  if (!obj || (!obj.name && Object.keys(obj).length === 0)) {
-    return '';
-  } else {
-    msg = Util.inspect(obj, {
+  var msg = '';
+  if (obj && typeof obj === 'object' && (obj.name || Object.keys(obj).length > 0)) {
+    msg = Util.inspect(Cycle.decycle(obj), {
       colors: true
     });
     if (/\n/.test(msg)) {
       return ">\n" + msg.replace(/^/mg, "  ");
     }
-    return msg;
   }
+  return msg;
 };
 
 function getFormatter(callingModule) {
@@ -48,9 +47,10 @@ module.exports = function(callingModule, config) {
   config.console = config.console || {};
   config.console.level = config.console.level || 'silly';
   config.file = config.file || {};
-  config.file.filename = config.file || 'logs/all-logs.log';
+  config.file.filename = config.file.filename || 'logs/all-logs.log';
   var transports = [];
   for(var transport of config.transports) {
+    // TODO file
     if(transport === 'console') {
       transports.push(new Winston.transports.Console({
         level: 'debug',
@@ -65,5 +65,19 @@ module.exports = function(callingModule, config) {
     "transports": transports,
     "exitOnError": config.exitOnError
   });
+  var originalLog = logger.log;
+  logger.log = function() {
+    var fwdArgs = [arguments[0]];
+    var firstObjectArg = 2;
+    if (typeof arguments[1] === 'string') {
+      fwdArgs.push(arguments[1]);
+    } else {
+      firstObjectArg = 1;
+    }
+    for (var i = firstObjectArg ; i < arguments.length ; i++) {
+      fwdArgs.push(Cycle.decycle(arguments[i]));
+    }
+    return originalLog.apply(logger, fwdArgs);
+  }
   return logger;
 };

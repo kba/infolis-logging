@@ -22,6 +22,7 @@
   "homepage": "https://github.com/infolis/infolis-logging#readme",
   "dependencies": {
     "chalk": "^1.1.1",
+    "cycle": "^1.0.3",
     "winston": "^2.1.0"
   }
 }
