@@ -48,12 +48,15 @@ module.exports = function(callingModule, config) {
   config.console.level = config.console.level || 'silly';
   config.file = config.file || {};
   config.file.filename = config.file.filename || 'logs/all-logs.log';
+  var minLevel = 'debug';
+  if (config.level) minLevel = config.level;
+  if (process.env.LOGLEVEL) minLevel = process.env.LOGLEVEL;
   var transports = [];
   for(var transport of config.transports) {
     // TODO file
     if(transport === 'console') {
       transports.push(new Winston.transports.Console({
-        level: 'debug',
+        level: minLevel,
         handleExceptions: false,
         json: false,
         colorize: true,
