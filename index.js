@@ -81,6 +81,15 @@ module.exports = function(callingModule, config) {
     delete logger._timers[name];
     return diff;
   }
+  logger.logstop = function logstop(name) {
+    var ms = logger.stop_ms(name);
+    if (ms < 10)       ms = Chalk.green.bold(ms)
+    else if (ms < 100) ms = Chalk.green(ms)
+    else if (ms < 500) ms = Chalk.yellow(ms)
+    else if (ms < 999) ms = Chalk.red(ms)
+    else               ms = Chalk.red.bold(ms)
+    return logger.debug(name, ms + " ms");
+  }
   logger.stop_ms = function end(name) {
     var diff = logger.stop(name);
     return (diff[0] * 1000000000 + diff[1]) / 1000000
