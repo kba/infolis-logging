@@ -68,6 +68,23 @@ module.exports = function(callingModule, config) {
     "transports": transports,
     "exitOnError": config.exitOnError
   });
+  logger._timers = {}
+  logger.start = function start(name) {
+    if (logger._timers[name])
+      throw new Error("Timer already started: '" + name + "'");
+    logger._timers[name] = process.hrtime();
+  }
+  logger.stop = function end(name) {
+    if (!logger._timers[name])
+      throw new Error("Timer not started: '" + name + "'");
+    var diff = process.hrtime(logger._timers[name]);
+    delete logger._timers[name];
+    return diff;
+  }
+  logger.stop_ms = function end(name) {
+    var diff = logger.stop(name);
+    return (diff[0] * 1000000000 + diff[1]) / 1000000
+  }
   var originalLog = logger.log;
   logger.log = function() {
     var fwdArgs = [arguments[0]];
