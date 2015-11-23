@@ -1,7 +1,9 @@
-var log = require('..')(module);
+var log = require('..')(module, {"transports": ['file']});
 
 log.debug("YAY");
 log.start('foo');
-setTimeout(function() {
-  log.debug(log.stop_ms('foo'))
-}, 1000);
+log.error("YAY");
+log.error("YAY");
+log.error("YAY");
+log.error("YAY");
+log.debug(log.stop_ms('foo'))
