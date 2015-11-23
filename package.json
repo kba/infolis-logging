@@ -1,6 +1,6 @@
 {
   "name": "infolis-logging",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Module-specific Winston logging",
   "main": "index.js",
   "scripts": {
