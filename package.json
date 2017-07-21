@@ -2,9 +2,10 @@
   "name": "infolis-logging",
   "version": "0.0.4",
   "description": "Module-specific Winston logging",
-  "main": "index.js",
+  "main": "lib/logging.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublish": "make"
   },
   "repository": {
     "type": "git",
@@ -22,8 +23,10 @@
   "homepage": "https://github.com/infolis/infolis-logging#readme",
   "dependencies": {
     "chalk": "^1.1.1",
+    "coffee2js": "^0.1.3",
     "cycle": "^1.0.3",
     "mkdirp": "^0.5.1",
-    "winston": "^2.1.0"
+    "winston": "^2.1.0",
+    "winston-timer": "0.0.2"
   }
 }

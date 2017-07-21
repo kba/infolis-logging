@@ -1,4 +1,10 @@
-var log = require('..')(module, {"transports": ['file']});
+var log = require('../lib/logging')(module, {
+  "transports": ['file']
+});
+var silentLog = require('../lib/logging')(module, {
+  "transports": ['file'],
+  "level": "error"
+});
 
 log.debug("YAY");
 log.start('foo');
